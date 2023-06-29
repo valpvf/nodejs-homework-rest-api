@@ -19,6 +19,10 @@ router.post(
   contrWrapper(addNewContact)
 );
 router.delete("/:id", contrWrapper(deleteContact));
-router.put("/:id", contrWrapper(updateCurrentContact));
+router.put(
+  "/:id",
+  validateContact(contactsSchema),
+  contrWrapper(updateCurrentContact)
+);
 
 module.exports = router;
