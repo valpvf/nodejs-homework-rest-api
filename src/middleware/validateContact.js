@@ -1,9 +1,8 @@
 const validateContact = (schema) => {
   const func = (req, res, next) => {
-    console.log("req.body", req.body);
     if (Object.keys(req.body).length === 0) {
-      res.status(400, "missing fields");
-      return func;
+      res.status(400).json({ message: "missing fields" });
+      return;
     }
     const { error } = schema.validate(req.body);
     if (error) {
