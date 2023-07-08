@@ -9,7 +9,7 @@ const app = require("./app");
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    console.log("DB Connected!");
+    console.log("Database connection successful!");
     app.listen(PORT, () => {
       console.log(`Server running. Use our API on port: ${PORT}`);
     });
