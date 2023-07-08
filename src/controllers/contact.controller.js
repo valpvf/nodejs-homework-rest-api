@@ -1,7 +1,7 @@
-const app = require("../../app");
-const { contrWrapper } = require("../helpers/contrWrapper");
+// const app = require("../../app");
+// const { contrWrapper } = require("../helpers/contrWrapper");
 const { errorHandling } = require("../helpers/errorReq");
-const { contactsSchema } = require("../schema/contactsSchema");
+// const { contactsSchema } = require("../schema/contactsSchema");
 const {
   listContacts,
   getById,
@@ -10,7 +10,7 @@ const {
   updateContact,
 } = require("../services/contact.service");
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const result = await listContacts();
     res.json(result);

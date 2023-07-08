@@ -12,17 +12,17 @@ const { contactsSchema } = require("../schema/contactsSchema");
 const { contrWrapper } = require("../helpers/contrWrapper");
 
 router.get("/", contrWrapper(getAll));
-router.get("/:id", contrWrapper(getContactById));
+// router.get("/:id", contrWrapper(getContactById));
 router.post(
   "/",
-  validateContact(contactsSchema),
+  // validateContact(contactsSchema),
   contrWrapper(addNewContact)
 );
-router.delete("/:id", contrWrapper(deleteContact));
-router.put(
-  "/:id",
-  validateContact(contactsSchema),
-  contrWrapper(updateCurrentContact)
-);
+// router.delete("/:id", contrWrapper(deleteContact));
+// router.put(
+//   "/:id",
+//   validateContact(contactsSchema),
+//   contrWrapper(updateCurrentContact)
+// );
 
 module.exports = router;
