@@ -13,11 +13,11 @@ const listContacts = async () => {
   return data;
 };
 
-// const getById = async (contactId) => {
-//   const contacts = await listContacts();
-//   const result = contacts.find((contact) => contact.id === contactId);
-//   return result || null;
-// };
+const getById = async (contactId) => {
+  const contact = await Contact.findById(contactId);
+  // const contact = await Contact.find(_id:contactId);
+  return contact;
+};
 
 const addContact = async (data) => {
   const newContact = await Contact.create(data);
@@ -35,24 +35,17 @@ const addContact = async (data) => {
 //   return result;
 // };
 
-// const updateContact = async (contactId, body) => {
-//   const contacts = await listContacts();
-//   const contactIndex = contacts.findIndex(
-//     (el) => el.id === contactId
-//   );
-//   if (contactIndex < 0) return null;
-//   contacts[contactIndex] = {
-//     ...contacts[contactIndex],
-//     ...body,
-//   };
-//   await update(contacts);
-//   return contacts[contactIndex] || null;
-// };
+const updateContact = async (contactId, body) => {
+  const contacts = await Contact.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+  return contacts;
+};
 
 module.exports = {
   listContacts,
-  // getById,
+  getById,
   addContact,
   // removeContact,
-  // updateContact,
+  updateContact,
 };

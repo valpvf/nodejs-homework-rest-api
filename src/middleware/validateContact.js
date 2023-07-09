@@ -1,3 +1,5 @@
+const { errorHandling } = require("../helpers");
+
 const validateContact = (schema) => {
   const func = (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
@@ -10,6 +12,7 @@ const validateContact = (schema) => {
       res
         .status(400)
         .json({ message: `missing required ${fieldName} field` });
+      next(errorHandling(400, error.message));
     }
     next();
   };
