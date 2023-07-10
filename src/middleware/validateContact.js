@@ -1,5 +1,17 @@
 const { errorHandling } = require("../helpers");
 
+const validateFavorite = (schema) => {
+  const func = (req, res, next) => {
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).json({ message: "missing field favorite" });
+      return;
+    }
+    res.status(200);
+    next();
+  };
+  return func;
+};
+
 const validateContact = (schema) => {
   const func = (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
@@ -19,4 +31,4 @@ const validateContact = (schema) => {
   return func;
 };
 
-module.exports = { validateContact };
+module.exports = { validateContact, validateFavorite };

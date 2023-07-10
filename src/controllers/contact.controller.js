@@ -1,7 +1,4 @@
-// const app = require("../../app");
-// const { contrWrapper } = require("../helpers/contrWrapper");
 const { errorHandling } = require("../helpers/errorReq");
-// const { contactsSchema } = require("../schema/contactsSchema");
 const {
   listContacts,
   getById,
@@ -56,8 +53,18 @@ const updateCurrentContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;
-    // if (Object.keys(body).length === 0)
-    //   throw errorHandling(400, "missing fields");
+    const result = await updateContact(id, body);
+    if (result === null) throw errorHandling(404, "Not Found");
+    res.status(200).json(result);
+  } catch (error) {
+    next(error.message);
+  }
+};
+const updateFavoriteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    console.log("body", body);
     const result = await updateContact(id, body);
     if (result === null) throw errorHandling(404, "Not Found");
     res.status(200).json(result);
@@ -72,4 +79,5 @@ module.exports = {
   addNewContact,
   deleteContact,
   updateCurrentContact,
+  updateFavoriteContact,
 };
