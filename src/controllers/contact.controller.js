@@ -64,12 +64,12 @@ const updateFavoriteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;
-    console.log("body", body);
     const result = await updateContact(id, body);
-    if (result === null) throw errorHandling(404, "Not Found");
+    if (!result) throw errorHandling(404, "Not Found");
     res.status(200).json(result);
   } catch (error) {
-    next(error.message);
+    res.status(404, "Not Found");
+    next();
   }
 };
 

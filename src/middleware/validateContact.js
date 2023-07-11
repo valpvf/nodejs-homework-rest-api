@@ -6,6 +6,7 @@ const validateFavorite = (schema) => {
       res.status(400).json({ message: "missing field favorite" });
       return;
     }
+    const { error } = schema.validate(req.keys);
     res.status(200);
     next();
   };
