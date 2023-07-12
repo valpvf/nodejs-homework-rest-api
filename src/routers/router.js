@@ -14,9 +14,10 @@ const {
 } = require("../middleware/validateContact");
 const { schemas } = require("../model/contact");
 const { contrWrapper } = require("../helpers/contrWrapper");
+const isValidId = require("../middleware/isValidId");
 
 router.get("/", contrWrapper(getAll));
-router.get("/:id", contrWrapper(getContactById));
+router.get("/:id", isValidId, contrWrapper(getContactById));
 router.post(
   "/",
   validateContact(schemas.addSchema),
@@ -25,11 +26,13 @@ router.post(
 router.delete("/:id", contrWrapper(deleteContact));
 router.put(
   "/:id",
+  isValidId,
   validateContact(schemas.addSchema),
   contrWrapper(updateCurrentContact)
 );
 router.patch(
   "/:id/favorite",
+  isValidId,
   validateFavorite(schemas.updateFavoriteSchema),
   contrWrapper(updateFavoriteContact)
 );
