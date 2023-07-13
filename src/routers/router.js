@@ -23,7 +23,7 @@ router.post(
   validateContact(schemas.addSchema),
   contrWrapper(addNewContact)
 );
-router.delete("/:id", contrWrapper(deleteContact));
+router.delete("/:id", isValidId, contrWrapper(deleteContact));
 router.put(
   "/:id",
   isValidId,
