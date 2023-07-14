@@ -1,3 +1,18 @@
+const { errorHandling } = require("../helpers");
+
+const validateFavorite = (schema) => {
+  const func = (req, res, next) => {
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).json({ message: "missing field favorite" });
+      return;
+    }
+    const { error } = schema.validate(req.keys);
+    res.status(200);
+    next();
+  };
+  return func;
+};
+
 const validateContact = (schema) => {
   const func = (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
@@ -10,10 +25,11 @@ const validateContact = (schema) => {
       res
         .status(400)
         .json({ message: `missing required ${fieldName} field` });
+      next(errorHandling(400, error.message));
     }
     next();
   };
   return func;
 };
 
-module.exports = { validateContact };
+module.exports = { validateContact, validateFavorite };
