@@ -9,7 +9,7 @@ const {
   updateFavoriteContact,
 } = require("../controllers/contact.controller");
 const {
-  validateContact,
+  validateBody,
   validateFavorite,
 } = require("../middleware/validateContact");
 const { schemas } = require("../model/contact");
@@ -20,14 +20,14 @@ router.get("/", contrWrapper(getAll));
 router.get("/:id", isValidId, contrWrapper(getContactById));
 router.post(
   "/",
-  validateContact(schemas.addSchema),
+  validateBody(schemas.addSchema),
   contrWrapper(addNewContact)
 );
 router.delete("/:id", isValidId, contrWrapper(deleteContact));
 router.put(
   "/:id",
   isValidId,
-  validateContact(schemas.addSchema),
+  validateBody(schemas.addSchema),
   contrWrapper(updateCurrentContact)
 );
 router.patch(
