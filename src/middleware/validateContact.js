@@ -8,7 +8,7 @@ const validateFavorite = (schema) => {
     }
     const { error } = schema.validate(req.keys);
     res.status(200);
-    next();
+    next(error.message);
   };
   return func;
 };

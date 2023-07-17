@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const { errorHandling } = require("../helpers");
-const { User } = require("../model/user");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+
+const { User } = require("../model/user");
 
 const { SECRET_KEY } = process.env;
 
@@ -66,4 +66,12 @@ const logout = async (req, res) => {
   res.status(204).json("No Content");
 };
 
-module.exports = { register, login, logout };
+const getCurrent = async (req, res) => {
+  const { email, subscription } = req.user;
+  res.status(200).json({
+    email,
+    subscription,
+  });
+};
+
+module.exports = { register, login, logout, getCurrent };

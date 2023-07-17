@@ -1,5 +1,14 @@
 const express = require("express");
 const router = express.Router();
+
+const { schemas } = require("../model/contact");
+const {
+  validateBody,
+  validateFavorite,
+} = require("../middleware/validateContact");
+const isValidId = require("../middleware/isValidId");
+const authMiddleware = require("../middleware/auth");
+const { contrWrapper } = require("../helpers/contrWrapper");
 const {
   getAll,
   getContactById,
@@ -8,14 +17,6 @@ const {
   updateCurrentContact,
   updateFavoriteContact,
 } = require("../controllers/contact.controller");
-const {
-  validateBody,
-  validateFavorite,
-} = require("../middleware/validateContact");
-const { schemas } = require("../model/contact");
-const { contrWrapper } = require("../helpers/contrWrapper");
-const isValidId = require("../middleware/isValidId");
-const authMiddleware = require("../middleware/auth");
 
 router.get("/", authMiddleware, contrWrapper(getAll));
 router.get(
