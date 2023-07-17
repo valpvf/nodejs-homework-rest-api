@@ -1,9 +1,14 @@
 const express = require("express");
 const { validateBody } = require("../middleware/validateContact");
 const { schemas } = require("../model/user");
-const { register, login } = require("../controllers/auth.controller");
+const {
+  register,
+  login,
+  logout,
+} = require("../controllers/auth.controller");
 const { contrWrapper } = require("../helpers/contrWrapper");
 const isValidUser = require("../middleware/isValidUser");
+const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -19,5 +24,6 @@ router.post(
   validateBody(schemas.loginSchema),
   contrWrapper(login)
 );
+router.post("/logout", authMiddleware, contrWrapper(logout));
 
 module.exports = router;
