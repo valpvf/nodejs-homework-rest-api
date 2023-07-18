@@ -9,7 +9,9 @@ const {
 
 const getAll = async (req, res, next) => {
   try {
-    const result = await listContacts();
+    const { user } = req;
+    console.log("user", user._id);
+    const result = await listContacts(user._id);
     res.json(result);
   } catch (error) {
     next(error.message);
@@ -29,7 +31,8 @@ const getContactById = async (req, res, next) => {
 
 const addNewContact = async (req, res, next) => {
   try {
-    const result = await addContact(req.body);
+    const { user } = req;
+    const result = await addContact(req.body, user._id);
     if (!result)
       throw errorHandling(400, "missing required name field");
     res.status(201).json(result);

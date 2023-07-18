@@ -8,12 +8,12 @@ const validateFavorite = (schema) => {
     }
     const { error } = schema.validate(req.keys);
     res.status(200);
-    next();
+    next(error.message);
   };
   return func;
 };
 
-const validateContact = (schema) => {
+const validateBody = (schema) => {
   const func = (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
       res.status(400).json({ message: "missing fields" });
@@ -32,4 +32,4 @@ const validateContact = (schema) => {
   return func;
 };
 
-module.exports = { validateContact, validateFavorite };
+module.exports = { validateBody, validateFavorite };
