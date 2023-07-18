@@ -1,8 +1,12 @@
+const path = require("path");
+const fs = require("fs/promises");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
 require("dotenv").config();
 
 const { User } = require("../model/user");
+const { fstat } = require("fs");
 
 const { SECRET_KEY } = process.env;
 
@@ -13,11 +17,13 @@ const register = async (req, res) => {
     res.status(409).json({ message: "Email in use" });
   }
 
+  const avatarURL = gravatar.url(email);
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({
     email,
     password: hashedPassword,
     subscription,
+    avatarURL,
   });
   res.status(201).json({
     user: {
@@ -74,4 +80,32 @@ const getCurrent = async (req, res) => {
   });
 };
 
-module.exports = { register, login, logout, getCurrent };
+const avatarsDir = path.join(
+  __dirname,
+  "../../",
+  "public",
+  "avatars"
+);
+
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+  const extention = originalname.split(".").pop();
+  const filename = `${_id}.${extention}`;
+  const resultUpload = path.join(avatarsDir, filename);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join("avatars", filename);
+  await User.findByIdAndUpdate(_id, { avatarURL });
+
+  res.json({
+    avatarURL,
+  });
+};
+
+module.exports = {
+  register,
+  login,
+  logout,
+  getCurrent,
+  updateAvatar,
+};
