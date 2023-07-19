@@ -3,10 +3,10 @@ const fs = require("fs/promises");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
+const Jimp = require("jimp");
 require("dotenv").config();
 
 const { User } = require("../model/user");
-const { fstat } = require("fs");
 
 const { SECRET_KEY } = process.env;
 
@@ -90,14 +90,28 @@ const avatarsDir = path.join(
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
+
   const extention = originalname.split(".").pop();
   const filename = `${_id}.${extention}`;
   const resultUpload = path.join(avatarsDir, filename);
   await fs.rename(tempUpload, resultUpload);
+  Jimp.read(resultUpload)
+    .then((lenna) => {
+      return (
+        lenna
+          .resize(250, 250) // resize
+          // .quality(60) // set JPEG quality
+          // .greyscale() // set greyscale
+          .write(resultUpload)
+      ); // save
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   const avatarURL = path.join("avatars", filename);
   await User.findByIdAndUpdate(_id, { avatarURL });
 
-  res.json({
+  res.status(200).json({
     avatarURL,
   });
 };

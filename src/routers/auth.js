@@ -13,7 +13,6 @@ const isValidUser = require("../middleware/isValidUser");
 const authMiddleware = require("../middleware/auth");
 const { contrWrapper } = require("../helpers/contrWrapper");
 const upload = require("../middleware/upload");
-const { updateContact } = require("../services/contact.service");
 
 const router = express.Router();
 
