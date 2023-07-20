@@ -10,8 +10,11 @@ const {
 const getAll = async (req, res, next) => {
   try {
     const { user } = req;
-    console.log("user", user._id);
-    const result = await listContacts(user._id);
+    const { page, limit } = req.query;
+    const result = await listContacts(
+      user._id
+      // , { page, limit }
+    );
     res.json(result);
   } catch (error) {
     next(error.message);
