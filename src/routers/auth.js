@@ -31,7 +31,7 @@ router.post(
 router.post("/logout", authMiddleware, contrWrapper(logout));
 router.get("/current", authMiddleware, contrWrapper(getCurrent));
 router.patch(
-  "/avatar",
+  "/avatars",
   authMiddleware,
   upload.single("avatarURL"),
   contrWrapper(updateAvatar)
