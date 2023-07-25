@@ -136,10 +136,10 @@ const updateAvatar = async (req, res) => {
 const verifyEmail = async (req, res) => {
   const { verificationToken } = req.params;
   const user = await User.findOne({ verificationToken });
-  console.log("user", User.verify);
 
   if (!user) {
-    throw errorHandling(404, `{ message: "User not found"}`);
+    // throw errorHandling(404, "User not found");
+    res.status(404).json({ message: "User not found" });
   }
 
   await User.findByIdAndUpdate(user._id, {
@@ -152,10 +152,9 @@ const verifyEmail = async (req, res) => {
 const resentVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  console.log("user", user.verify, email);
 
   if (!user) {
-    throw errorHandling(404, { message: "User not found" });
+    throw errorHandling(404, `{ message: "User not found" }`);
   }
   if (user.verify) {
     res.status(400).json({
