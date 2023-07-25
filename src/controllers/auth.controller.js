@@ -61,6 +61,10 @@ const login = async (req, res) => {
     res.status(401).json({ message: "Email or password is wrong" });
   }
 
+  if (!user.verify) {
+    res.status(404).json({ message: "User not found" });
+  }
+
   const payload = {
     id: user._id,
   };
