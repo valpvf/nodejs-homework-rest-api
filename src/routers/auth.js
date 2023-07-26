@@ -8,6 +8,8 @@ const {
   logout,
   getCurrent,
   updateAvatar,
+  verifyEmail,
+  resentVerifyEmail,
 } = require("../controllers/auth.controller");
 const isValidUser = require("../middleware/isValidUser");
 const authMiddleware = require("../middleware/auth");
@@ -35,6 +37,12 @@ router.patch(
   authMiddleware,
   upload.single("avatarURL"),
   contrWrapper(updateAvatar)
+);
+router.get("/verify/:verificationToken", contrWrapper(verifyEmail));
+router.post(
+  "/verify",
+  validateBody(schemas.verifySchema),
+  contrWrapper(resentVerifyEmail)
 );
 
 module.exports = router;
